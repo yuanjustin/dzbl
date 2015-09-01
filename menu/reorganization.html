@@ -89,6 +89,24 @@
         } else if ($('#menu').val() == '按时间重排') {
             $('#main').html($('#time').html());
         } else {
+            $('#print').html('')
+            if ($('#switchModel', window.parent.document).text() == "切换到住院病历") {
+                $('#print').html('<strong size="12px">病人信息:</strong>' + $('#br', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">主诉:</strong>' + $('#zs', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">病史：</strong>' + $('#bs', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">体检：</strong>' + $('#tj', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">初步诊断：</strong>' + $('#cb', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">处理意见：</strong>') + $('#cl', parent.document).find('span:not(.newspan)').text();
+            } else {
+                $('#print').html('<strong size="12px">一般项目:</strong>' + $('#yb', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">主诉:</strong>' + $('#zs1', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">现病史：</strong>' + $('#xb', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">既往史</strong>' + $('#jw', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">系统回顾</strong>' + $('#xt', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">个人史</strong>' + $('#gr', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">婚姻、月经及生育史</strong>' + $('#hy', parent.document).find('span:not(.newspan)').text() +
+                        '<br><strong size="12px">家族史</strong>') + $('#jz', parent.document).find('span:not(.newspan)').text();
+            }
             $('#main').html($('#print').html());
         }
     }
