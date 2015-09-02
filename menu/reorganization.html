@@ -190,7 +190,7 @@
             $('#main').html($('#disease').html());
         } else if ($('#menu').val() == '按时间重排') {
             $('#main').html('');
-            $('#timeLine').html('');
+            $('#timeline').html('');
             addTime('1', '5', '5', '7', 'fsg', 'dsaf');
             addTime('1', '5', '5', '7', 'fsg', 'dsaf');
             addTime('1', '5', '5', '7', 'fsg', 'dsaf');
@@ -219,8 +219,8 @@
     }
 
     function addTime(year, mounth, day, hour, minue, symptom) {
-        $('#timeLine').append('<li><time class="cbp_tmtime"><span>' + year + "年" + mounth + "月" + day + "日" + '</span><span>' + hour + ":" + minue + '+</span></time>'
-                + '<div class="cbp_tmicon cbp_tmicon-phone"></div><div class="cbp_tmlabel"><h2>' + text + '</h2></div> </li>');
+        $('#timeline').append('<li><time class="cbp_tmtime"><span>' + year + "年" + mounth + "月" + day + "日" + '</span><span>' + hour + ":" + minue + '+</span></time>'
+                + '<div class="cbp_tmicon cbp_tmicon-phone"></div><div class="cbp_tmlabel"><h2>' + symptom + '</h2></div> </li>');
     }
 
 </script>
