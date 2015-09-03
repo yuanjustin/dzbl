@@ -191,12 +191,19 @@
         } else if ($('#menu').val() == '按时间重排') {
             $('#main').html('');
             $('#timeline').html('');
-            addTime('1', '5', '5', '7', 'fsg', 'dsaf');
-            addTime('1', '5', '5', '7', 'fsg', 'dsaf');
-            addTime('1', '5', '5', '7', 'fsg', 'dsaf');
-            addTime('1', '5', '5', '7', 'fsg', 'dsaf');
-            addTime('1', '5', '5', '7', 'fsg', 'dsaf');
-            addTime('1', '5', '5', '7', 'fsg', 'dsaf');
+
+            var data = new Array();
+            $.getJSON(
+                    "http://localhost:63342/%E7%94%B5%E5%AD%90%E7%97%85%E5%8E%86/json/time.json",//路径你来决定
+                    {
+                        "order": "reorganizationTime", "combination": data
+                    },
+                    function (result) {
+                        $.each(result, function (i, item) {
+                            addTime(item.time[0].value, item.time[1].value, item.time[2].value, item.time[3].value, item.time[4].value, item.symptom);
+                        });
+                    }
+            );
             $('#main').html($('#time').html());
         } else {
             $('#printText').html('')
@@ -217,10 +224,13 @@
             $('#main').html($('#print').html());
         }
     }
-
     function addTime(year, mounth, day, hour, minue, symptom) {
-        $('#timeline').append('<li><time class="cbp_tmtime"><span>' + year + "年" + mounth + "月" + day + "日" + '</span><span>' + hour + ":" + minue + '+</span></time>'
-                + '<div class="cbp_tmicon cbp_tmicon-phone"></div><div class="cbp_tmlabel"><h2>' + symptom + '</h2></div> </li>');
+        var text = "";
+        $.each(symptom, function (i, item) {
+            text = text + "  " + item;
+        });
+        $('#timeline').append('<li><time class="cbp_tmtime"><span>' + year + "年<br>" + mounth + "月" + day + "日" + '</span><span>' + hour + ":" + minue + '</span></time>'
+                + '<div class="cbp_tmicon cbp_tmicon-phone"></div><div class="cbp_tmlabel"><h2>' + text + '</h2></div> </li>');
     }
 
 </script>
