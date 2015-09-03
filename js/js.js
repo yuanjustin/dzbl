@@ -389,7 +389,7 @@ function TypeKeyPress(event) {
                 return false;//不要屏蔽按键
                 break;
             case 'tips':
-
+                noTypeKeyPress(event);
                 return true;//不要屏蔽按键
                 break;
             default:
@@ -414,6 +414,10 @@ function TypeKeyPress(event) {
     } else {
         switch (event) {
             case 8:
+                if (getState() == 'tips') {
+                    removeSpan(getCaretPos());
+                    return true;
+                }
                 return false;//不要屏蔽退格键
             case 13:
                 addspan();

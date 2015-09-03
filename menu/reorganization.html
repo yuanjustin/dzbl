@@ -191,8 +191,72 @@
         } else if ($('#menu').val() == '按时间重排') {
             $('#main').html('');
             $('#timeline').html('');
-
+            var index = 0;
             var data = new Array();
+            var text = $('#switchModel', window.parent.document).text() != "切换到住院病历" ? $('#xb', window.parent.document) : $('#bs', window.parent.document);
+            var addItem = {
+                "time": [
+                    {
+                        "value": 1994,
+                        "unit": "年"
+                    },
+                    {
+                        "value": 10,
+                        "unit": "月"
+                    },
+                    {
+                        "value": 8,
+                        "unit": "日"
+                    },
+                    {
+                        "value": 8,
+                        "unit": "时"
+                    },
+                    {
+                        "value": 8,
+                        "unit": "分"
+                    }
+                ],
+                "symptom": [
+                    "出生"
+                ]
+            };
+            data.push(addItem);
+            addItem.time.length = 0;
+            addItem.symptom.length = 0;
+            while (index <= text.find('span').length - 1) {
+                var addtime = {};
+                if (isDate(text.find('span').eq(index))) {
+                    addtime.value = text.find('span').eq(index - 1).text();
+                    addtime.unit = text.find('span').eq(index).text();
+                    addItem.time.push(addtime);
+                    if (isDate(text.find('span').eq(index + 2))) {
+                        index = index + 2;
+                        while (isDate(text.find('span').eq(index))) {
+                            if (index > text.find('span').length - 1) {
+                                break;
+                            }
+                            if (isDate(text.find('span').eq(index))) {
+                                addtime.value = text.find('span').eq(index - 1).text();
+                                addtime.unit = text.find('span').eq(index).text();
+                                addItem.time.push(addtime);
+                            }
+                            index = index + 2;
+                        }
+                    }
+                    var i = index;
+                    while (isDate(text.find('span').eq(i + 1))) {
+                        if (text.find('span').eq(i).hasClass('symptom')) {
+                            addItem.symptom.push(text.find('span').eq(i).text());
+                        }
+                        i++;
+                    }
+                    data.push(addItem);
+                    index++;
+                    addItem.symptom.length = 0;
+                    addItem.time.length = 0;
+                }
+            }
             $.getJSON(
                     "http://localhost:63342/%E7%94%B5%E5%AD%90%E7%97%85%E5%8E%86/json/time.json",//路径你来决定
                     {
@@ -232,7 +296,17 @@
         $('#timeline').append('<li><time class="cbp_tmtime"><span>' + year + "年<br>" + mounth + "月" + day + "日" + '</span><span>' + hour + ":" + minue + '</span></time>'
                 + '<div class="cbp_tmicon cbp_tmicon-phone"></div><div class="cbp_tmlabel"><h2>' + text + '</h2></div> </li>');
     }
-
+    function isDate(obj) {
+        if (obj.hasClass('unit')) {
+            if (obj.text() == '年') {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
 </script>
 </body>
 
