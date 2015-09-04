@@ -66,15 +66,17 @@
         <div class="divider"></div>
         <div class="card-footer">
             <button class="button flat" onclick="$(this).parents('.card')[0].hidden=true;">删除</button>
-            <button class="button flat color-orange-500" onclick="  Dialog.show($('#searchResult')[0]);">详细检索结果</button>
+            <button class="button flat color-orange-500"
+                    onclick='  Dialog.show($("#searchResult")[0]);$("#searchResult")[0].contentWindow.work();'>详细检索结果
+            </button>
         </div>
     </div>
 </div>
 <iframe width="800" height="600" src="menu/factor.html" class="dialog" id="factor" hidden></iframe>
 <iframe width="800" height="600" src="menu/danger.html" class="dialog" id="danger" hidden></iframe>
 <iframe width="800" height="600" src="menu/search.html" class="dialog" id="searchResult" hidden></iframe>
-<iframe width="800" height="600" src="menu/help.html" class="dialog" id="help" hidden></iframe>
-
+<iframe frameborder="no" style="padding: 0;" width="1000" height="800" src="menu/help.html" class="dialog" id="help"
+        hidden></iframe>
 
 <div id="menuDialog">
     <div></div>
@@ -206,7 +208,7 @@
 <p></p>
 <p></p>
 </div>
-<button id="save0" class="fab bg-blue-500 color-white" right onclick="window.open(window.location.href );"><i
+<button id="save0" class="fab bg-blue-500 color-white" right onclick=""><i
         class="icon-save"></i></button>
 <button id="save" class="fab bg-blue-500 color-white" right onclick="window.open(window.location.href );"><i
         class="icon-create"></i></button>

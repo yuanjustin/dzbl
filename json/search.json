@@ -1,18 +1,18 @@
 [
   {
     "disease": "ddf",
-    "factor": "10"
+    "factor": 10
   },
   {
     "disease": "ddf",
-    "factor": "89"
+    "factor": 89
   },
   {
     "disease": "ddf",
-    "factor": "56"
+    "factor": 56
   },
   {
     "disease": "ddf",
-    "factor": "4"
+    "factor": 4
   }
 ]

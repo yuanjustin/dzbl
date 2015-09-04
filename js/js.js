@@ -1503,13 +1503,14 @@ function addspan() {
                         "order": "search", "keyword": $('#searcher').val()
                     },
                     function (result) {
-                        var word_list = [];
+                        var word_list = new Array();
                         $.each(result, function (i, item) {
+                            searchResult.push(item);
                             word_list[i] = {};
                             word_list[i].text = item.disease;
                             word_list[i].weight = item.factor;
                             //$(word_list[i]).attr('text',item.disease);
-                            //$(word_list[i]).attr('weight',item.factor);
+
                         });
                         $("#searchWord").html('');
                         $("#searchWord").jQCloud(word_list);

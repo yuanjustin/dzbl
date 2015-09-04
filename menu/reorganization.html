@@ -25,13 +25,13 @@
 
 
 <div id="disease" hidden>
-    <input type="text" class="text-input" placeholder="请输入疾病名称"/>
+    <input type="text" class="text-input" id="dieaseName" placeholder="请输入疾病名称"/>
 
     <table style="width:100%">
         <tr>
             <td>
                 <div>
-                    <ul class="list">
+                    <ul id="support" class="list">
                         <li ripple>
                             <h2>
                                 支持</h2>
@@ -54,7 +54,7 @@
             </td>
             <td>
                 <div>
-                    <ul class="list">
+                    <ul id="nosupport" class="list">
                         <li ripple>
                             <h2>
                                 不支持</h2>
@@ -187,6 +187,29 @@
 <script>
     function work() {
         if ($('#menu').val() == '按疾病重排') {
+            $('#support').html('');
+            $('#nosupport').html('');
+            var termspan = new Array();
+            $(".symptom", window.parent.document).each(function (i, o) {
+                termspan[i] = $(o).text();
+            });
+            $.getJSON(
+                    "http://localhost:63342/%E7%94%B5%E5%AD%90%E7%97%85%E5%8E%86/json/class.json",//路径你来决定
+                    {
+                        "order": "reorganizationClass", "disease": $('#dieaseName').val(), "term": termspan
+                    },
+                    function (result) {
+                        $('#support').append('<li ripple><h2>支持<h2></li>');
+                        $.each(result[0], function (i, item) {
+                            $('#support').append('<li ripple>' + item + '</li>');
+                        });
+                        $('#nosupport').append('<li ripple><h2>不支持<h2></li>');
+                        $.each(result[1], function (i, item) {
+                            $('#nosupport').append('<li ripple>' + item + '</li>');
+                        });
+
+                    }
+            );
             $('#main').html($('#disease').html());
         } else if ($('#menu').val() == '按时间重排') {
             $('#main').html('');
@@ -222,14 +245,18 @@
                 ]
             };
             data.push(addItem);
-            addItem.time.length = 0;
-            addItem.symptom.length = 0;
+//            addItem.time = [];
+//            addItem.symptom.length = 0;
             while (index <= text.find('span').length - 1) {
-                var addtime = {};
                 if (isDate(text.find('span').eq(index))) {
-                    addtime.value = text.find('span').eq(index - 1).text();
-                    addtime.unit = text.find('span').eq(index).text();
-                    addItem.time.push(addtime);
+                    data[data.length] = {"time": [], "symptom": []};
+
+//                    addtime.value = text.find('span').eq(index - 1).text();
+//                    addtime.unit = text.find('span').eq(index).text();
+                    data[data.length - 1].time.push({
+                        value: text.find('span').eq(index - 1).text(),
+                        unit: text.find('span').eq(index).text()
+                    });
                     if (isDate(text.find('span').eq(index + 2))) {
                         index = index + 2;
                         while (isDate(text.find('span').eq(index))) {
@@ -237,26 +264,32 @@
                                 break;
                             }
                             if (isDate(text.find('span').eq(index))) {
-                                addtime.value = text.find('span').eq(index - 1).text();
-                                addtime.unit = text.find('span').eq(index).text();
-                                addItem.time.push(addtime);
+//                                addtime.value = text.find('span').eq(index - 1).text();
+//                                addtime.unit = text.find('span').eq(index).text();
+//                                addItem.time.push(addtime);
+                                data[data.length - 1].time.push({
+                                    value: text.find('span').eq(index - 1).text(),
+                                    unit: text.find('span').eq(index).text()
+                                });
                             }
                             index = index + 2;
                         }
                     }
-                    var i = index;
-                    while (isDate(text.find('span').eq(i + 1))) {
-                        if (text.find('span').eq(i).hasClass('symptom')) {
-                            addItem.symptom.push(text.find('span').eq(i).text());
-                        }
-                        i++;
-                    }
-                    data.push(addItem);
                     index++;
-                    addItem.symptom.length = 0;
-                    addItem.time.length = 0;
+                    while (isDate(text.find('span').eq(index + 1)) == false && index <= text.find('span').length - 1) {
+//                        if (text.find('span').eq(index).hasClass('symptom')) {
+//                            addItem.symptom.push(text.find('span').eq(index).text());
+                        data[data.length - 1].symptom.push(text.find('span').eq(index).hasClass('endspan') || text.find('span').eq(index).hasClass('newspan') ? "/n" : text.find('span').eq(index).text());
+
+//                        }
+                        index++;
+                    }
+//                    data[data.length]=nono(addItem);
+//                    addItem={};
                 }
+                index++;
             }
+
             $.getJSON(
                     "http://localhost:63342/%E7%94%B5%E5%AD%90%E7%97%85%E5%8E%86/json/time.json",//路径你来决定
                     {
@@ -306,6 +339,10 @@
         } else {
             return false;
         }
+    }
+    function nono(obj) {
+        var obj2 = obj;
+        return obj2;
     }
 </script>
 </body>
